@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Salut les newks !
+{% endblock %}
+
+{% block header %}
+    <h2>Voci le header</h2>
+{% endblock %}
+
+{% block body %}
+    <h1>{{title | upper}}</h1>
+    <p>{{salut}}</p>
+    <a href="{{ path('hello', {'prenom': 'Lior', 'age': 31} ) }}">Allez voir hello</a>
+
+    {% if age >= 18 %}
+        <p>{{adulte}}</p>
+    {% elseif age >= 12 %}
+        <p>{{ado}}</p>
+    {% else %}
+        <p>{{enfant}}</p>
+    {% endif %}
+    {#
+    <ul style="list-style : none;">
+        {% for compteur in 0..10 %}
+            <li>Item n°{{compteur}} </li>
+        {% endfor %}
+
+    </ul>
+    #}
+    {% for prenom, taille in tableau %}
+        <p>(itération n°{{loop.index}}) : {{prenom}} mesure {{taille}} cm</p>
+    {% endfor %}
+
+    {% for prenom, age in tableau2 %}
+        {% if loop.last %}
+            <b style="color:blue;">{{prenom}} a {{age}} ans</b>
+        {% elseif loop.first %}
+            <i style="color:red;">{{prenom}} a {{age}} ans</i>
+        {% else %}
+            <p style="color:orange;">{{prenom}} a {{age}} ans</p>
+        {% endif %}
+    {% endfor %}
+    {% endblock %}
