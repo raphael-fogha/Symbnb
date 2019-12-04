@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -46,7 +47,7 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=20,minMessage="La presentation doit faire plus de 20 caractères")
+     * @Assert\Length(min=10,minMessage="La presentation doit faire plus de 10 caractères")
      */
     private $introduction;
 
@@ -73,6 +74,12 @@ class Ad
      * @Assert\Valid()
      */
     private $images;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ads")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -111,7 +118,7 @@ class Ad
 
         return $this;
     }
-
+  
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -211,6 +218,18 @@ class Ad
                 $image->setAd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
