@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
@@ -32,6 +34,7 @@ class AdController extends AbstractController
      * Permet de créer une annonce
      *
      * @Route("/ads/new", name="ads_create") 
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
@@ -70,6 +73,7 @@ class AdController extends AbstractController
      * Affiche le formulaire d'edition
      *
      * @Route("/ads/{slug}/edit", name="ads_edit")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()",message="Vous ne pouvez modifier que les annonces que vous avez crée !" )
      * 
      * @return Response
      */
@@ -115,5 +119,27 @@ class AdController extends AbstractController
             'ad/show.html.twig',
             ['ad' => $ad,]
         );
+    }
+    /**
+     * Permet de supprimer une annonce
+     * 
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * @Security("is_granted('ROLE_USER') and user == ad.getAuthor()")
+     *
+     * @param Ad $ad
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Ad $ad, ObjectManager $manager )
+    {
+        $manager->remove($ad);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "'L'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée !"
+        );
+
+        return $this->redirectToRoute("ads_index");
     }
 }
