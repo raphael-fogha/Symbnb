@@ -137,7 +137,7 @@ class AdController extends AbstractController
 
         $this->addFlash(
             'success',
-            "'L'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée !"
+            "L'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée !"
         );
 
         return $this->redirectToRoute("ads_index");

@@ -1,0 +1,52 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des reservation
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<h1 class="my-5">Gestion des réservations</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Fait le</th>
+					<th>Voyageur</th>
+					<th>Annonce</th>
+					<th>Durée</th>
+					<th>Montant</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for booking in bookings %}
+					{% set b = booking %}
+
+					<tr>
+						<td>{{b.id}}</td>
+						<td>{{b.createdAt|date("d/m/Y H:i")}}</td>
+						<td>
+							<img src="{{b.booker.picture}}" class="avatar avatar-mini" alt="">
+							{{b.booker.fullName}}
+						</td>
+						<td>{{b.ad.title}}</td>
+                        <td>{{b.duration}} j</td>
+                        <td>{{b.amount}} &euro;</td>
+						<td>
+							<a href="{{path("admin_booking_edit",{'id':b.id})}}" class="btn btn-primary">
+								<i class="fas fa-pen"></i>
+							</a>
+							<a href="{{path("admin_booking_delete", {'id' : b.id})}}" class="btn btn-danger" onclick="return confirm(`Voulez-vous vraiment supprimer cette réservation ?`)">
+								<i class="fas fa-trash"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+
+{% endblock %}

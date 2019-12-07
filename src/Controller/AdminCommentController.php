@@ -40,11 +40,47 @@ class AdminCommentController extends AbstractController
     public function edit(Comment $comment, Request $request, ObjectManager $manager)
     {
         $form = $this->createForm(CommentEditType::class, $comment);
+        $form->handleRequest($request);
         
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+                "success",
+                "Le commentaire n°{$comment->getid()} a bien été modifié !"
+            );
+
+            return $this->redirectToRoute('admin_comment');
+        }
+
         return $this->render('admin/comment/edit.html.twig',[
             'form' => $form->createView(),
             'comment' => $comment
         ]);
+    }
+
+    /**
+     * Supprime un commentaire
+     * 
+     * @Route("/admin/{id}/delete", name="admin_comment_delete")
+     * 
+     * @param Comment $comment
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Comment $comment, ObjectManager $manager)
+    {
+        $manager->remove($comment);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Le commentaire a bien été supprimé !"
+        );
+
+        return $this->redirectToRoute("admin_comment");
     }
 }
 

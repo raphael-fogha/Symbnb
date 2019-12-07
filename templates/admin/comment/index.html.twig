@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container-fluid">
-<h1 class="my-5">Gere des chattes</h1>
+<h1 class="my-5">Gestion des commentaires</h1>
 
 <table class="table table-hover">
     <thead>
@@ -30,17 +30,17 @@
             </td>
             <td>{{c.content}}</td>
             <td>
-            <span class="badge badge-dark">
+            <span class="badge badge-primary">
              {{c.ad.avgrating}}
              </span>
             </td>
             <td>{{c.ad.title}}</td>
             <td>
-               <a href="#" class="btn btn-primary">    
-                <i class="fas fa-pen"></i>
+               <a href="{{path('admin_comment_edit', {'id' : c.id})}}" class="btn btn-primary">    
+                    <i class="fas fa-pen"></i>
                </a>
-               <a href="#" class="btn btn-danger">
-                 <i class="fas fa-trash"></i> 
+               <a href="{{path("admin_comment_delete", {'id': c.id})}}" class="btn btn-danger" onclick="return confirm(`Voulez-vous vraiment supprimer le commentaire n°{{comment.id}} ?`)">
+                     <i class="fas fa-trash"></i> 
                </a>
             </td>
         </tr>
