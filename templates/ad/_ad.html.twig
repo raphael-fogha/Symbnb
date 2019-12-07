@@ -5,7 +5,16 @@
 			{{ ad.rooms }}
 			chambres,
 			<strong>{{ ad.price }}&euro; / nuit</strong><br>
+
+			{% if ad.comments|length > 0 %}
+
+			{% include 'common/rating.html.twig' with {'rating' : ad.avgrating } %}
+
+			{% else %}
+
 			<small>Pas encore noté</small>
+
+			{% endif %}
 		</div>
 		<a href="{{url}}">
 			<img src="{{ ad.coverImage }}" alt="image de l'apprtement" style="height: 200px; width: 100%; display:block;">

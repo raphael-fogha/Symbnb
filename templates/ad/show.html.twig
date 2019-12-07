@@ -19,8 +19,10 @@
 			</p>
 			<a href="{{path('booking_create', {'slug' : ad.slug})}}" class="btn btn-primary">Réservez !</a>
 			{% if app.user and app.user == ad.author %}
-			<a href="{{path('ads_edit',{'slug' : ad.slug})}}" class="btn btn-info">Modifier l'annonce </a>
-			<a href="{{path('ads_delete',{'slug' : ad.slug})}}" class="btn btn-danger" onclick="return confirm(`Voulez-vous vraiment supprimer l'annonce : {{ad.title}} ?`)">Supprimer l'annonce </a>
+				<a href="{{path('ads_edit',{'slug' : ad.slug})}}" class="btn btn-info">Modifier l'annonce
+				</a>
+				<a href="{{path('ads_delete',{'slug' : ad.slug})}}" class="btn btn-danger" onclick="return confirm(`Voulez-vous vraiment supprimer l'annonce : {{ad.title}} ?`)">Supprimer l'annonce
+				</a>
 			{% endif %}
 		</div>
 	</div>
@@ -55,6 +57,54 @@
 						<span class="sr-only">Next</span>
 					</a>
 				</div>
+
+				<hr>
+
+				{% if ad.comments|length > 0 %}
+					<h2 class="mb-3">L'avis de nos voyageurs :</h2>
+					<div class="alert alert-info">
+						<h5 class="alert alert-heading">
+							<div class="row align-items-center">
+							<div class="col">
+							<h5>Note globale donnée par nos voyageurs </h5>
+							</div>
+							<div class="col">
+							{#% include 'common/rating.html.twig' with {'rating' : ad.avgrating } %#}
+							<span class="rating">
+									{% for i in 1..5 %}
+										{% if i <= ad.avgrating %}
+											<i class="fas fa-star" style="color:white;"></i>
+										{% else %}
+											<i class="far fa-star"style="color:white;"></i>
+										{% endif %}
+									{% endfor %}
+								</span>
+							<br>
+							<small>(Calculé sur une base de {{ad.comments|length}} avis) </small>
+							</div>
+							</div>
+						</h5>
+					</div>
+
+					{% for comment in ad.comments %}
+
+						<div class="bg-light rounded mb-2 py-3 px-3">
+							<strong>{{comment.author.fullName}}</strong>
+							<blockquote>{{comment.content}}</blockquote>
+							<strong>Note de
+								{{comment.author.firstName}}
+								:
+							</strong>
+							{% include 'common/rating.html.twig' with {'rating' : comment.rating} %}
+						</div>
+
+					{% endfor %}
+
+				{% else %}
+
+					<h2>Cette annonce n'a pas encore recu de commentaires</h2>
+				{% endif %}
+
 			</div>
 			<div class="col">
 				{% set a = ad.author %}
