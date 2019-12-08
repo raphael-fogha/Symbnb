@@ -7,9 +7,12 @@
 	<div class="container">
 		<h1 class="my-3">Voici les annonces de nos hotes</h1>
 		<div class="row">
-			{% for ad in ads %}
+			{% for ad in pagination.data %}
 				{% include 'ad/_ad.html.twig' %}
 			{% endfor %}
 		</div>
+		{% include 'common/pagination.html.twig' with {'path' : "ads_index" } %}
 	</div>
 {% endblock %}
+
+

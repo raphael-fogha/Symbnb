@@ -21,7 +21,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for booking in bookings %}
+				{% for booking in pagination.data %}
 					{% set b = booking %}
 
 					<tr>
@@ -32,8 +32,10 @@
 							{{b.booker.fullName}}
 						</td>
 						<td>{{b.ad.title}}</td>
-                        <td>{{b.duration}} j</td>
-                        <td>{{b.amount}} &euro;</td>
+						<td>{{b.duration}}
+							j</td>
+						<td>{{b.amount}}
+							&euro;</td>
 						<td>
 							<a href="{{path("admin_booking_edit",{'id':b.id})}}" class="btn btn-primary">
 								<i class="fas fa-pen"></i>
@@ -46,6 +48,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		{% include 'common/pagination.html.twig' with {'path' : "admin_booking" } %}
 	</div>
 
 

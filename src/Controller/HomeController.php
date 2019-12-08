@@ -2,46 +2,39 @@
 
 namespace App\Controller;
 
+use App\Entity\Ad;
+use App\Repository\UserRepository;
+use App\Service\Pagination;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController{
 
-    /**
-     * @Route("/hello/{prenom}/age/{age}", name="hello")
-     * @Route("/hello", name="hello_base")
-     * @Route("/hello/{prenom}", name="hello_prenom")
-     * Montre la page qui dit bonjour
-     *
-     * @return void
-     */
-    public function hello($prenom = "anonyme",$age = 0){
-        return new Response("Bonjour " . $prenom. " vous avez " . $age . " ans" );
-    }
-   
+
     
     /**
-     * @Route("/", name="homepage")
+     * Affiche la page d'accueil
+     * 
+     * @Route("/{page<\d+>?1}", name="homepage")
      */
-    public function home(){
-        $prenoms = ['Lior' => 190,'Joseph' => 175,'Anne' => 155];
-        $ages = ['Mica' => 21, 'Uriel' => 30, 'Raphael' => 23];
+    public function index(Pagination $pagination,UserRepository $repo, $page)
+    {   
+        $user1 = $repo->findOneBy([
+            'id' => 100
+        ]);
+        $user2 = $repo->findOneBy([
+            'id' => 105
+        ]);
+        $pagination->setEntityClass(Ad::class)
+                    ->setPage($page)
+                    ->setLimit(3);
 
-        return $this->render(
-            'home.html.twig',
-            ['title' => 'Bonjour à vous !',
-            'salut' => 'Comment vous-portez vous ?',
-            'age' => 19,
-            'adulte' => 'Vous ête un adulte',
-            'ado' => 'Vous ête un ado',
-            'enfant' => 'Vous ête un enfant',
-            'tableau' => $prenoms,
-            'tableau2' => $ages,
-            ] 
-
-        );
+        return $this->render('home.html.twig',[
+            'pagination' => $pagination,
+            'user1' => $user1,
+            'user2' => $user2
+        ]);
     }
 }
 
-?>
