@@ -1,10 +1,13 @@
 # Symbnb
-Site de reservation de voyage inspiré d'AirBNB// Page d'accueil : https://ibb.co/7RRqX5k // Catalogue : https://ibb.co/bXMzJhQ // Annonce : https://ibb.co/JcXLQBd // Reservation 1 : https://ibb.co/sghQbK9 // Reservation 2 : https://ibb.co/28YHK9Q // Backoffice : https://ibb.co/1mtHx7c 
+Site de reservation de voyage inspiré d'AirBNB
 ## Stack
-Symfony, Bootstrap
+Front: Twig, Bootstrap
+
+Back: Symfony, Doctrine
 
 ### Screen
-![pic2](https://ibb.co/7RRqX5k)
-![pic1]( https://ibb.co/bXMzJhQ)
-![pic3](https://i.ibb.co/9vXkTtv/comment.png)
+![pic2](https://i.ibb.co/rccVmSd/homepage.png)
+![pic1]( https://i.ibb.co/2d1gN2W/pages.png)
+![pic3](https://i.ibb.co/jVZs4N2/reservation2.png)
+![pic4](https://i.ibb.co/4VnBxKk/backoffice.png)
 
